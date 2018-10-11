@@ -6,6 +6,9 @@ keras.applications.VGG16
 
 (x_train, y_train), (x_test, y_test) = keras.datasets.cifar10.load_data()
 
+x_train /= 255.
+x_test /= 255.
+
 inputs = layers.Input(shape=x_train.shape[1:])
 
 blocks = [[64] * 2, [128] * 2, [256] * 3, [512] * 3, [512] * 3]
