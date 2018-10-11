@@ -2,15 +2,18 @@
 import keras
 import numpy as np
 from keras import layers
+from keras.applications.vgg19 import preprocess_input
 
-keras.applications.VGG16
+keras.applications.VGG19
 
 (x_train, y_train), (x_test, y_test) = keras.datasets.cifar10.load_data()
 
 x_train = x_train.astype(np.float32)
 x_test = x_test.astype(np.float32)
-x_train /= 255.
-x_test /= 255.
+x_train = preprocess_input(x_train)
+x_test = preprocess_input(x_test)
+# x_train /= 255.
+# x_test /= 255.
 
 inputs = layers.Input(shape=x_train.shape[1:])
 
