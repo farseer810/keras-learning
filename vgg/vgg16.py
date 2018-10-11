@@ -2,7 +2,9 @@
 import keras
 from keras import layers
 
-(x_train, y_train), (x_test, y_test) = keras.datasets.cifar100.load_data()
+keras.applications.VGG19
+
+(x_train, y_train), (x_test, y_test) = keras.datasets.cifar10.load_data()
 
 inputs = layers.Input(shape=x_train.shape[1:])
 
