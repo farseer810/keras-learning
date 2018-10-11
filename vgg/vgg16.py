@@ -2,7 +2,7 @@
 import keras
 from keras import layers
 
-keras.applications.VGG19
+keras.applications.VGG16
 
 (x_train, y_train), (x_test, y_test) = keras.datasets.cifar10.load_data()
 
@@ -19,7 +19,7 @@ for block in blocks:
 net = layers.Flatten()(net)
 net = layers.Dense(4096, activation='relu')(net)
 net = layers.Dense(4096, activation='relu')(net)
-net = layers.Dense(100, activation='softmax')(net)
+net = layers.Dense(10, activation='softmax')(net)
 
 
 model = keras.models.Model(inputs=inputs, outputs=net)
