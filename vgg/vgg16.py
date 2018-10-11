@@ -1,11 +1,14 @@
 #-*- coding: utf-8 -*-
 import keras
+import numpy as np
 from keras import layers
 
 keras.applications.VGG16
 
 (x_train, y_train), (x_test, y_test) = keras.datasets.cifar10.load_data()
 
+x_train = x_train.astype(np.float32)
+x_test = x_test.astype(np.float32)
 x_train /= 255.
 x_test /= 255.
 
