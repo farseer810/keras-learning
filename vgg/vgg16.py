@@ -6,75 +6,19 @@ from keras import layers
 
 inputs = layers.Input(shape=x_train.shape[1:])
 
-# block #1
-net = layers.Conv2D(64, (3, 3), padding='same')(inputs)
-net = layers.BatchNormalization()(net)
-net = layers.Activation('relu')(net)
+blocks = [[64] * 2, [128] * 2, [256] * 3, [512] * 3, [512] * 3]
 
-net = layers.Conv2D(64, (3, 3), padding='same')(net)
-net = layers.BatchNormalization()(net)
-net = layers.Activation('relu')(net)
-net = layers.MaxPooling2D((2, 2), strides=2, padding='same')(net)
+net = inputs
+for block in blocks:
+    for filters in block:
+        net = layers.Conv2D(filters, (3, 3), padding='same', activation='relu')(net)
+    net = layers.MaxPooling2D((2, 2), strides=2)(net)
 
-# block #2
-net = layers.Conv2D(128, (3, 3), padding='same')(net)
-net = layers.BatchNormalization()(net)
-net = layers.Activation('relu')(net)
-
-net = layers.Conv2D(128, (3, 3), padding='same')(net)
-net = layers.BatchNormalization()(net)
-net = layers.Activation('relu')(net)
-net = layers.MaxPooling2D((2, 2), strides=2, padding='same')(net)
-
-# block #3
-net = layers.Conv2D(256, (3, 3), padding='same')(net)
-net = layers.BatchNormalization()(net)
-net = layers.Activation('relu')(net)
-
-net = layers.Conv2D(256, (3, 3), padding='same')(net)
-net = layers.BatchNormalization()(net)
-net = layers.Activation('relu')(net)
-
-net = layers.Conv2D(256, (3, 3), padding='same')(net)
-net = layers.BatchNormalization()(net)
-net = layers.Activation('relu')(net)
-
-net = layers.MaxPooling2D((2, 2), strides=2, padding='same')(net)
-
-# block #4
-net = layers.Conv2D(512, (3, 3), padding='same')(net)
-net = layers.BatchNormalization()(net)
-net = layers.Activation('relu')(net)
-
-net = layers.Conv2D(512, (3, 3), padding='same')(net)
-net = layers.BatchNormalization()(net)
-net = layers.Activation('relu')(net)
-
-net = layers.Conv2D(512, (3, 3), padding='same')(net)
-net = layers.BatchNormalization()(net)
-net = layers.Activation('relu')(net)
-
-net = layers.MaxPooling2D((2, 2), strides=2, padding='same')(net)
-
-# block #5
-net = layers.Conv2D(512, (3, 3), padding='same')(net)
-net = layers.BatchNormalization()(net)
-net = layers.Activation('relu')(net)
-
-net = layers.Conv2D(512, (3, 3), padding='same')(net)
-net = layers.BatchNormalization()(net)
-net = layers.Activation('relu')(net)
-
-net = layers.Conv2D(512, (3, 3), padding='same')(net)
-net = layers.BatchNormalization()(net)
-net = layers.Activation('relu')(net)
-
-net = layers.MaxPooling2D((2, 2), strides=2, padding='same')(net)
-
-net = layers.GlobalAveragePooling2D()(net)
-
-# softmax
+net = layers.Flatten()(net)
+net = layers.Dense(4096, activation='relu')(net)
+net = layers.Dense(4096, activation='relu')(net)
 net = layers.Dense(100, activation='softmax')(net)
+
 
 model = keras.models.Model(inputs=inputs, outputs=net)
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
