@@ -3,7 +3,7 @@ import keras
 from keras import layers
 
 
-(x_train, y_train), (x_test, y_test) = keras.datasets.cifar100.load_data()
+(x_train, y_train), (x_test, y_test) = keras.datasets.cifar10.load_data()
 
 # x_train /= 255.
 # x_test /= 255.
@@ -23,12 +23,12 @@ for block in blocks:
     net = layers.MaxPooling2D((2, 2), strides=2)(net)
 
 net = layers.Flatten()(net)
-net = layers.Dense(1024)(net)
+net = layers.Dense(512)(net)
 net = layers.BatchNormalization()(net)
 net = layers.Activation('relu')(net)
 net = layers.Dropout(0.5)(net)
 
-net = layers.Dense(100, activation='softmax')(net)
+net = layers.Dense(10, activation='softmax')(net)
 
 
 model = keras.models.Model(inputs=inputs, outputs=net)
